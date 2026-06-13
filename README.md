@@ -1,75 +1,96 @@
 # GarmentsIQ: Garment Worker Productivity Predictor
 
-GarmentsIQ is a predictive analytics SaaS web application built specifically for the garment manufacturing industry. Using machine learning regression models, the platform forecasts actual production productivity across **Sewing** and **Finishing** departments based on daily operational parameters. 
+![Application Interface](Application%20Interface.png)
 
-By predicting throughput in advance, factory managers can optimize scheduling, set realistic targets, adjust incentives, and prevent costly bottlenecks.
+<div align="center">
+
+[![Video Demonstration](https://img.shields.io/badge/🎥_Watch_Video-Demo_&_Resources-orange?style=for-the-badge&logo=google-drive&logoColor=white)](https://drive.google.com/drive/folders/1ZJ_tAdrYwVPq1BzvaX5WV5CN63daLLG4?usp=sharing)
+[![Python Version](https://img.shields.io/badge/Python-3.10+-blue?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![NodeJS Version](https://img.shields.io/badge/Node-v18+-green?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+
+</div>
+
+---
+
+## 💡 Why This Project Matters: Business & Industry Impact
+
+Garment manufacturing is a high-volume, low-margin industry where profitability depends heavily on operational efficiency. The industry faces several core challenges that **GarmentsIQ** directly addresses:
+
+### 1. The Cost of Missed Deadlines
+In fashion supply chains, shipping delays of even a few days can result in severe financial penalties, order cancellations by international buyers, or the need for **expensive air-freight shipping** (which can wipe out entire profit margins). By predicting actual productivity in advance, managers can identify line bottlenecks days before they happen and adjust schedules to ensure on-time delivery.
+
+### 2. Move from Guesswork to Data-Driven Scheduling
+Traditional production target-setting relies on static spreadsheets, historical averages, or simple intuition. Managers often ask "what-if" questions blindly: 
+* *"Will adding 5 more workers to line 3 help us hit our target?"*
+* *"Is an overtime increment going to yield actual output, or will workers experience fatigue?"*
+
+**GarmentsIQ** provides a sandbox to run these scenarios instantly. Using parameters like SMV (Standard Minute Value), team size, style changes, and target metrics, managers can see realistic, machine-learning-backed outcomes immediately.
+
+### 3. Idle Labor and Resource Wastage
+Idle time and idle men represent pure loss. The platform visualizes how idle men and style changes drag down efficiency. By simulating the impact of a style change in the Sewing line, production planners can schedule changes at optimal times (e.g., end of shifts) to minimize disruption.
+
+### 4. Balanced Incentives
+Incentives drive worker motivation but must be balanced against operational costs. The model highlights the direct correlation between worker incentive structures and final productivity output, enabling managers to set optimized, self-funding incentive plans.
 
 ---
 
 ## 🚀 Key Features
 
 * **Dual-Model ML Architecture**: 
-  Utilizes specialized machine learning models tailored to each department's distinct operational characteristics:
-  * **Sewing Department**: Powered by an **XGBoost Regressor** (trained on 15 features).
-  * **Finishing Department**: Powered by a **Random Forest Regressor** (trained on 14 features, omitting Work in Progress/WIP).
-* **Live Interactive Predictor Dashboard**:
-  A modern, responsive user interface featuring glassmorphic designs, smooth micro-animations (Framer Motion), and dark mode elements.
+  Tailored algorithms train separately to capture the distinct operational natures of production lines:
+  * **Sewing Department Model**: Powered by an **XGBoost Regressor** (15 features) to analyze complex workflows, style changes, and WIP.
+  * **Finishing Department Model**: Powered by a **Random Forest Regressor** (14 features, omitting WIP) for simpler packaging/pressing line parameters.
+* **Modern SaaS Web Dashboard**:
+  Responsive interface built in dark mode with premium glassmorphism, glowing micro-animations (Framer Motion), and responsive analytics (Recharts).
 * **Performance Gap Visualizer**:
-  An interactive gauge showing the distance between the predicted productivity and the manager's targeted productivity.
-* **Dual-Department Comparison**:
-  Recharts-based bar charts compare predicted outcomes between the Sewing and Finishing departments under identical inputs.
-* **Key Impact Drivers (Feature Importance)**:
-  Exposes the top 5 operational variables driving the prediction (e.g., standard minute value, number of style changes, incentives) to help managers make data-driven decisions.
-* **Smart Quality Constraints & Data Validation**:
-  Enforces historical and logical bounds to prevent anomalous predictions. Warns users with visual indicators (✅ Good, ⚠️ Suspect, ❌ Poor) when parameters are out of standard ranges.
+  A visual slider comparing predicted actual productivity against targeted productivity, instantly identifying lines falling short.
+* **Feature Importance Insights**:
+  Draws feature importance metrics directly from the model pipelines, telling managers exactly which lever (e.g., incentives, overtime) has the highest impact on that department's output.
+* **Smart Bounds Validation**:
+  Interactive validation system with a quality badge (✅ Good, ⚠️ Suspect, ❌ Poor) to alert managers when they enter parameters that are mathematically or historically anomalous.
 
 ---
 
-## 🛠️ Architecture & Tech Stack
+## 🛠️ Tech Stack & Architecture
 
 ### Frontend
-* **Core Framework**: React 19 & Vite (Fast HMR)
+* **Framework**: React 19 & Vite
 * **Styling**: Tailwind CSS (v4)
+* **Charts**: Recharts
 * **Animations**: Framer Motion
-* **Data Visualization**: Recharts
 
 ### Backend
 * **API Framework**: FastAPI (Python)
 * **Web Server**: Uvicorn
-* **Scientific Computing**: NumPy, Pandas
-* **Machine Learning**: Scikit-Learn (1.2.2), Joblib (for model loading), XGBoost
+* **Libraries**: NumPy, Pandas, Scikit-Learn (1.2.2), Joblib, XGBoost
 
 ---
 
 ## 📁 Repository Structure
 
 ```text
-├── final github/
-│   ├── backend/
-│   │   ├── models/
-│   │   │   ├── model_sewing.pkl      # Pre-trained XGBoost model & encoders
-│   │   │   └── model_finishing.pkl   # Pre-trained Random Forest model & encoders
-│   │   ├── main.py                   # FastAPI Application (API endpoints)
-│   │   └── requirements.txt          # Python dependencies
-│   ├── frontend/
-│   │   ├── src/
-│   │   │   ├── components/
-│   │   │   │   ├── Hero.jsx          # Welcome landing section
-│   │   │   │   ├── Navbar.jsx        # Sticky navigation
-│   │   │   │   ├── Predictor.jsx     # Main calculator & charts component
-│   │   │   │   └── Solution.jsx      # Core value proposition section
-│   │   │   ├── App.jsx               # Entry component
-│   │   │   └── index.css             # Base styles & variables
-│   │   ├── package.json              # NPM configuration & dependencies
-│   │   └── vite.config.js            # Vite configurations
-│   ├── garments_worker_productivity.csv # Dataset used for training
-│   ├── inspect_models.py             # Script to verify model feature inputs
-│   ├── run_all.bat                   # Batch script to boot frontend + backend
-│   ├── test_api.py                   # Direct backend API test script
-│   └── validation.py                 # Out-of-bounds warning checks
-├── Group_4_final_code_.ipynb         # Jupyter Notebook detailing training workflow
-├── Advance Analysis report.pdf       # Analytical research report
-└── Slides.pdf                        # Presentation slides
+├── backend/
+│   ├── models/
+│   │   ├── model_sewing.pkl      # Pre-trained XGBoost model & encoders
+│   │   └── model_finishing.pkl   # Pre-trained Random Forest model & encoders
+│   ├── main.py                   # FastAPI Application (API endpoints)
+│   └── requirements.txt          # Python dependencies
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Hero.jsx          # Welcome landing section
+│   │   │   │   ├── Navbar.jsx    # Sticky navigation
+│   │   │   │   ├── Predictor.jsx # Main calculator & charts component
+│   │   │   │   └── Solution.jsx  # Core value proposition section
+│   │   │   ├── App.jsx           # Entry component
+│   │   │   └── index.css         # Base styles & variables
+│   │   ├── package.json          # NPM configuration & dependencies
+│   │   └── vite.config.js        # Vite configurations
+├── garments_worker_productivity.csv # Dataset used for training
+├── inspect_models.py             # Script to verify model feature inputs
+├── run_all.bat                   # Batch script to boot frontend + backend
+├── test_api.py                   # Direct backend API test script
+└── validation.py                 # Out-of-bounds warning checks
 ```
 
 ---
@@ -175,7 +196,9 @@ To keep model predictions realistic, the dashboard validates user inputs against
 
 ---
 
-## 📈 Evaluation & Results
-Based on model evaluation in `Group_4_final_code_.ipynb`:
-* **Sewing Department**: The **XGBoost Regressor** handles the highly complex, non-linear relationships of the sewing line (features like WIP and style changes). It achieves a high $R^2$ score and low Mean Squared Error (MSE), indicating strong predictive accuracy for daily targets.
-* **Finishing Department**: The **Random Forest Regressor** is well-suited for the simpler, more linear workflows of the finishing line where many parameters are naturally fixed to zero.
+## ⚠️ Note on Slides.pdf and Large Files
+GitHub has a recommended file preview limit of **50 MB**. Because `Slides.pdf` (~63.7 MB) and `website video demonstration.mp4` (~65.5 MB) exceed this recommendation, GitHub will show a warning or say **"Unable to render code block" / "Unable to preview"** when clicking on them in the web interface. 
+
+To view these files:
+1. Click the **"Download"** button on GitHub to view them locally.
+2. Or open the [Video Demo and Project Resources Folder](https://drive.google.com/drive/folders/1ZJ_tAdrYwVPq1BzvaX5WV5CN63daLLG4?usp=sharing) directly in your browser.
