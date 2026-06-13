@@ -2,35 +2,40 @@
 
 ![Application Interface](Application%20Interface.png)
 
-<div align="center">
+## 📌 Project Introduction & Industry Context
 
-[![Video Demonstration](https://img.shields.io/badge/🎥_Watch_Video-Demo_&_Resources-orange?style=for-the-badge&logo=google-drive&logoColor=white)](https://drive.google.com/drive/folders/1ZJ_tAdrYwVPq1BzvaX5WV5CN63daLLG4?usp=sharing)
-[![Python Version](https://img.shields.io/badge/Python-3.10+-blue?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![NodeJS Version](https://img.shields.io/badge/Node-v18+-green?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+Garment manufacturing is a highly labor-intensive industry operating on incredibly thin profit margins and tight delivery windows. In countries like **Bangladesh**, the garment sector is a critical cornerstone of the economy, responsible for billions in exports. However, factory floors often suffer from high variability in worker productivity due to complex variables like standard minute values (SMV), style changes, labor count, incentives, and overtime.
 
-</div>
+This project tackles this **real-world industry problem** using a **real-world dataset**—the **Productivity Prediction of Garment Employees Dataset** from the UCI Machine Learning Repository, which logs the actual production metrics of garment factory workers in Bangladesh. By training custom machine learning regression models on this historical data, **GarmentsIQ** predicts the actual productivity of worker teams in the **Sewing** and **Finishing** departments, enabling factory managers to plan schedules, set realistic targets, and prevent shipping delays.
 
 ---
 
-## 💡 Why This Project Matters: Business & Industry Impact
+## 📁 Repository Overview & Deliverables
 
-Garment manufacturing is a high-volume, low-margin industry where profitability depends heavily on operational efficiency. The industry faces several core challenges that **GarmentsIQ** directly addresses:
+This repository contains the complete pipeline for the predictive model, the web application backend, the interactive frontend dashboard, and supporting analytical documentation.
 
-### 1. The Cost of Missed Deadlines
-In fashion supply chains, shipping delays of even a few days can result in severe financial penalties, order cancellations by international buyers, or the need for **expensive air-freight shipping** (which can wipe out entire profit margins). By predicting actual productivity in advance, managers can identify line bottlenecks days before they happen and adjust schedules to ensure on-time delivery.
+### 🔗 Quick Links to Project Assets:
+* 📄 **[Analytical Research Report (PDF)](Advance%20Analysis%20report.pdf)**: In-depth statistical analysis, preprocessing steps, feature engineering, and model evaluation metrics.
+* 📊 **[Presentation Slides (PDF)](Slides.pdf)**: Slide deck summarizing findings, model comparisons, and application architecture.
+* 🎥 **[Video Demonstration (Google Drive)](https://drive.google.com/drive/folders/1ZJ_tAdrYwVPq1BzvaX5WV5CN63daLLG4?usp=sharing)**: Walkthrough demonstration of the web application and its predictive functionalities.
 
-### 2. Move from Guesswork to Data-Driven Scheduling
-Traditional production target-setting relies on static spreadsheets, historical averages, or simple intuition. Managers often ask "what-if" questions blindly: 
-* *"Will adding 5 more workers to line 3 help us hit our target?"*
-* *"Is an overtime increment going to yield actual output, or will workers experience fatigue?"*
+---
 
-**GarmentsIQ** provides a sandbox to run these scenarios instantly. Using parameters like SMV (Standard Minute Value), team size, style changes, and target metrics, managers can see realistic, machine-learning-backed outcomes immediately.
+## 💡 Business & Industry Impact: Why It Matters
 
-### 3. Idle Labor and Resource Wastage
-Idle time and idle men represent pure loss. The platform visualizes how idle men and style changes drag down efficiency. By simulating the impact of a style change in the Sewing line, production planners can schedule changes at optimal times (e.g., end of shifts) to minimize disruption.
+### 1. Eliminating Missed Deadlines
+In international fashion supply chains, late deliveries trigger severe penalties, order cancellations, or require **costly air-freight shipping** (which can completely wipe out profit margins). **GarmentsIQ** helps managers spot bottlenecks days in advance, keeping shipments on schedule.
 
-### 4. Balanced Incentives
-Incentives drive worker motivation but must be balanced against operational costs. The model highlights the direct correlation between worker incentive structures and final productivity output, enabling managers to set optimized, self-funding incentive plans.
+### 2. What-If Scenario Sandbox
+Instead of relying on guesswork, managers can run simulations before shifting lines:
+* *"If I add 5 workers to the Sewing department, will we hit our 0.8 target?"*
+* *"Does increasing overtime translate to actual output, or does worker fatigue lower productivity?"*
+
+### 3. Optimizing Labor and Minimizing Idle Time
+Labor idle time is a direct loss for the business. This model highlights how style changes and idle men affect the bottom line, enabling planners to schedule style transitions (which require line reconfiguration) at the least disruptive times.
+
+### 4. Balanced Incentive Planning
+Financial incentives drive motivation but must be self-funding. The system models the sweet spot between incentive increases and final productivity outputs.
 
 ---
 
@@ -132,73 +137,7 @@ The web dashboard will be available at `http://localhost:5173`.
 
 ---
 
-## 📊 Operational Validation Limits
-
-To keep model predictions realistic, the dashboard validates user inputs against the training dataset's logical limits:
-
-| Parameter | Sewing Department Limits | Finishing Department Limits | Description |
-| :--- | :--- | :--- | :--- |
-| **SMV (Standard Minute Value)** | Max: **51** | Max: **5** | Allocated time in minutes for a single task |
-| **WIP (Work In Progress)** | Max: **23,122** | **N/A** (Omitted) | Count of unfinished items in pipeline |
-| **Workers** | **1 to 60** | **1 to 28** | Number of workers in the team |
-| **Overtime** | Max: **25,920** | Max: **15,000** | Total overtime hours/minutes for the team |
-| **Incentive** | Max: **138** | Max: **3,600** | Financial incentive paid to workers |
-| **Style Changes** | Max: **2** | Fixed: **0** | Number of style changes in a single day |
-| **Idle Men** | Max: **40** | Fixed: **0** | Number of workers left idle |
-| **Idle Time** | Max: **150** | Fixed: **0** | Duration of production stoppage (minutes) |
-
----
-
-## 💡 Usage & API Integration
-
-### API Prediction Endpoint
-* **URL**: `/predict`
-* **Method**: `POST`
-* **Content-Type**: `application/json`
-
-#### Example Request
-```json
-{
-  "quarter": "Quarter1",
-  "department": "Sewing",
-  "day": "Monday",
-  "targeted_productivity": 0.8,
-  "smv": 11.2,
-  "over_time": 0,
-  "incentive": 0,
-  "idle_time": 0,
-  "wip": 1000,
-  "idle_men": 0,
-  "no_of_style_change": 0,
-  "no_of_workers": 50
-}
-```
-
-#### Example Response
-```json
-{
-  "prediction": 0.7682,
-  "status": "Moderate",
-  "extras": {
-    "targeted_productivity": 0.8,
-    "dept_comparison": {
-      "Sewing": 0.7682,
-      "Finishing": 0.6953
-    },
-    "feature_importances": [
-      { "feature": "incentive", "importance": 0.384 },
-      { "feature": "smv", "importance": 0.152 },
-      { "feature": "targeted_productivity", "importance": 0.119 }
-    ]
-  }
-}
-```
-
----
-
-## ⚠️ Note on Slides.pdf and Large Files
-GitHub has a recommended file preview limit of **50 MB**. Because `Slides.pdf` (~63.7 MB) and `website video demonstration.mp4` (~65.5 MB) exceed this recommendation, GitHub will show a warning or say **"Unable to render code block" / "Unable to preview"** when clicking on them in the web interface. 
-
-To view these files:
-1. Click the **"Download"** button on GitHub to view them locally.
-2. Or open the [Video Demo and Project Resources Folder](https://drive.google.com/drive/folders/1ZJ_tAdrYwVPq1BzvaX5WV5CN63daLLG4?usp=sharing) directly in your browser.
+## 📈 Evaluation & Results
+Based on model evaluation in `Group_4_final_code_.ipynb`:
+* **Sewing Department**: The **XGBoost Regressor** handles the highly complex, non-linear relationships of the sewing line (features like WIP and style changes). It achieves a high $R^2$ score and low Mean Squared Error (MSE), indicating strong predictive accuracy for daily targets.
+* **Finishing Department**: The **Random Forest Regressor** is well-suited for the simpler, more linear workflows of the finishing line where many parameters are naturally fixed to zero.
