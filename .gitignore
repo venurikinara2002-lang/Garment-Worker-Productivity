@@ -1,0 +1,29 @@
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# IDE and Editor Folders
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Environment Variables / Secrets
+.env
+.env.local
+
+# Dependency Directories
+node_modules/
+venv/
+env/
+target/
+bin/
+obj/
+
+# Build Outputs / Logs
+*.log
+dist/
+build/
