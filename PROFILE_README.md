@@ -52,7 +52,7 @@ A machine learning web application tailored to the garments manufacturing indust
 A data-driven project evaluating over 20,000+ Sri Lankan offshore fishing trip records. The system applies CatBoost and XGBoost models to estimate profitability, trip costs, and safety variables to assist in maritime management.
 * **Tech Stack**: Python, CatBoost, XGBoost, Pandas, NumPy
 
-#### 🖥️ [Maritime Decision Support System](https://github.com/venurikinara2002-lang/maritime-decision-support)
+#### 🖥️ [Maritime Decision Support System](https://github.com/venurikinara2002-lang/Maritime-Decision-Support-System)
 An interactive decision support web tool providing fishermen with catch target recommendations, sea safety analysis, and historical trip data visualizations.
 * **Tech Stack**: Streamlit, Python, Pandas
 
